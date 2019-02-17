@@ -1,0 +1,49 @@
+//这只是一个随手的foolish solution，yangwuqi
+//8ms, faster than 76.87%
+
+func permute(nums []int) [][]int {//递归回溯完事
+     var results [][]int
+     var visited []int
+     var flag int
+     for i:=0;i<len(nums);i++{
+     if not_in(nums[i],visited){
+     visited=append(visited,nums[i])
+     flag++
+     if flag==len(nums){
+          results=append(results,visited)
+     }else{
+     result(nums,&results,flag,&visited)
+     }
+     visited=append(visited[:flag-1])
+     flag--
+     }
+     }
+     return results
+}
+func result(nums []int,results *[][]int,flag int,visited *[]int){
+    for i:=0;i<len(nums);i++{
+        if not_in(nums[i],*visited){
+        *visited=append(*visited,nums[i])
+        flag++
+        if flag==len(nums){
+            var xx []int
+            for _,cc:=range *visited{
+                xx=append(xx,cc)
+            }
+            *results=append(*results,xx)
+        }else{
+            result(nums,results,flag,visited)  
+        }
+        *visited=(*visited)[:flag-1]
+        flag--
+        }
+    }
+}
+func not_in(target int, nums []int)bool{
+    for _,v:=range nums{
+       if target==v{
+            return false
+        }
+    }
+    return true
+}
