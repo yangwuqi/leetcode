@@ -1,0 +1,28 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+    var addr []*ListNode
+    headd:=head//最简单的，一直往后找，把每个地址都存下来，然后把要删的删了，完事
+    for headd!=nil{
+        addr=append(addr,headd)
+        headd=headd.Next
+    }
+    lenn:=len(addr)
+    if n==lenn{                   //注意要考虑好n等于链表长度和n等于1这两种情况
+        if lenn>1{
+            return addr[1]
+        }else{
+            return nil
+        }  
+    }else if n==1{
+        if lenn>1{
+            addr[lenn-2].Next=nil
+            return head
+        }else{
+            return nil
+        }
+    }
+    addr[lenn-n-1].Next=addr[lenn-n+1]
+    return head
+}
