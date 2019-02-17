@@ -1,0 +1,14 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms, faster than 100%
+
+func lengthOfLastWord(s string) int {//这题直接用strings.Split不行，因为可能有多个连续空格，那就手动对s从尾到头检测一下好了
+    var flag int
+    for i:=len(s)-1;i>-1;i--{
+        if s[i]!=' '{
+            flag++
+        }else if (i<len(s)-1)&&s[i+1]!=' '{
+            break
+        }       
+    }
+    return flag
+}
