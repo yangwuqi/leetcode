@@ -1,0 +1,22 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func myPow(x float64, n int) float64 {//这里有个大坑，函数的返回值要用一个变量存起来进行计算，不然每个函数调用都要递归到底再返回，会超时
+    if n==0{
+        return 1
+    }
+    if n==1{
+        return x
+    }
+    if n<0{
+        n=-n
+        x=1/x
+    }
+    zz:=myPow(x,n/2)
+    if n%2==0{
+            return zz*zz
+        }else{
+            return zz*zz*x
+        }
+    return 0
+}
