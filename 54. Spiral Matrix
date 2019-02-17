@@ -1,0 +1,47 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func spiralOrder(matrix [][]int) []int {//这题的横向起始和纵向起始只有两种情况，写个递归函数依次改变情况递归一下就好了
+    if len(matrix)==0{
+        return []int{}
+    }
+    if len(matrix)==1&&len(matrix[0])==0{
+        return []int{}
+    }
+    var result []int
+    circle(&result,matrix,0,len(matrix[0])-1,0,len(matrix)-1,0)
+    return result
+}
+func circle(result *[]int,matrix [][]int, x_start int, x_end int, y_start int, y_end int,flag int){    
+    if flag>=len(matrix)*len(matrix[0]){
+        return
+    }else{
+    if x_start<x_end{
+    for i:=x_start;i<=x_end;i++{
+        *result=append(*result,matrix[y_start][i])
+        flag++
+    }
+    }else{
+        for i:=x_start;i>=x_end;i--{
+        *result=append(*result,matrix[y_start][i])
+        flag++
+    }
+    }
+    if y_start<y_end{
+        for i:=y_start+1;i<=y_end;i++{
+            *result=append(*result,matrix[i][x_end])
+            flag++
+        }
+    }else{
+        for i:=y_start-1;i>=y_end;i--{
+            *result=append(*result,matrix[i][x_end])
+            flag++
+        }
+    }
+    if x_start<x_end&&y_start<y_end{
+        circle(result,matrix,x_end-1,x_start,y_end,y_start+1,flag)
+    }else if x_start>x_end&&y_start>y_end{
+        circle(result,matrix,x_end+1,x_start,y_end,y_start-1,flag)
+    }
+    }
+}
