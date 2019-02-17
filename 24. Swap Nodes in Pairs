@@ -1,0 +1,42 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func swapPairs(head *ListNode) *ListNode {
+    var lastnode *ListNode
+    if head==nil{
+        return head
+    }
+    headd:=head
+    if head.Next!=nil{
+        head=head.Next                                 //如果链表节点个数大于1，那么最后head肯定变成第二个节点了
+    }
+    for {
+        if lastnode==nil&&headd.Next!=nil&&headd.Next.Next!=nil{
+            nexthead:=headd.Next.Next                  //headd是第一个的话，nexthead就是第三个的位置
+            headd.Next.Next=headd                      //第二个的下一个变成第一个
+            headd.Next=nexthead                        //第一个的下一个变成第三个
+            lastnode=headd                             //lastnode很重要，不然交换之后丢掉了和上个节点的连接
+            headd=nexthead                             //从第三个重复这个过程
+        }else if lastnode==nil&&headd.Next!=nil&&headd.Next.Next==nil{
+            headd.Next.Next=headd
+            headd.Next=nil
+            return head
+        }else if headd.Next==nil{
+            return head
+        }else if lastnode!=nil&&headd.Next!=nil&&headd.Next.Next!=nil{
+            nexthead:=headd.Next.Next                  
+            headd.Next.Next=headd                      
+            lastnode.Next=headd.Next
+            headd.Next=nexthead                        
+            lastnode=headd                             
+            headd=nexthead   
+        }else if lastnode!=nil&&headd.Next!=nil&&headd.Next.Next==nil{                  
+            headd.Next.Next=headd                      
+            lastnode.Next=headd.Next
+            headd.Next=nil                        
+            lastnode=headd                             
+            return head   
+        }
+    }
+    return head
+}
