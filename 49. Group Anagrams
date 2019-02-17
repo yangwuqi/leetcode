@@ -1,0 +1,25 @@
+//这只是一个随手的foolish solution，yangwuqi
+// 276 ms, faster than 98.48%
+
+func groupAnagrams(strs []string) [][]string {
+    lenn:=len(strs)
+    freq:=make([][26]int,lenn)
+    for i:=0;i<lenn;i++{
+        for j:=0;j<len(strs[i]);j++{//统计每个单词中的字母出现情况
+            freq[i][strs[i][j]-'a']++ 
+        }
+    }
+    result:=make(map[[26]int][]int)
+    for i:=0;i<lenn;i++{
+        result[freq[i]]=append(result[freq[i]],i)
+    }
+    var results [][]string
+    for _,v:=range result{
+        var zz []string
+        for j:=0;j<len(v);j++{
+            zz=append(zz,strs[v[j]])
+        }
+        results=append(results,zz)
+    }
+    return results
+}
