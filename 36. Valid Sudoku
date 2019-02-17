@@ -1,0 +1,43 @@
+//这只是一个随手的foolish solution，yangwuqi
+//4ms，faster than 100%
+
+func isValidSudoku(board [][]byte) bool {//这题我就按照题意模拟完事的，横向，纵向，每个3x3，一个个检查，有重复就return false
+    for i:=0;i<9;i++{
+        xx:=make(map[int]int)
+        for j:=0;j<9;j++{
+            if board[i][j]!='.'{
+            xx[int(board[i][j])-int('0')]++
+            if  xx[int(board[i][j])-int('0')]>1{
+                return false
+            }
+            }
+        }
+    }
+    for i:=0;i<9;i++{
+        xx:=make(map[int]int)
+        for j:=0;j<9;j++{
+            if board[j][i]!='.'{
+            xx[int(board[j][i])-int('0')]++
+            if xx[int(board[j][i])-int('0')]>1{
+                return false
+            }
+            }
+        }
+    }
+    return find(board,0,3,0,3)&&find(board,3,6,0,3)&&find(board,6,9,0,3)&&find(board,0,3,3,6)&&find(board,0,3,6,9)&&find(board,3,6,3,6)&&find(board,3,6,6,9)&&find(board,6,9,3,6)&&find(board,6,9,6,9)
+}
+
+func find(board [][]byte, start1 int, end1 int, start2 int, end2 int)bool{
+    zz:=make(map[int]int)
+    for i:=start1;i<end1;i++{
+        for j:=start2;j<end2;j++{
+            if board[i][j]!='.'{
+            zz[int(board[i][j])-int('0')]++
+            if zz[int(board[i][j])-int('0')]>1{
+                return false
+            }
+            }
+        }
+    }
+    return true
+}
