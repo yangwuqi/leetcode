@@ -1,0 +1,43 @@
+/*
+这题用动态规划写的话, 设CONCLUDE[i][j]代表S的前i个元素包含T的前j个元素, 然后推导出状态转移方程
+
+当S[i-1]!=T[j-1]时, T的这j个元素必然都存在于S的前i-1个元素里面，所以我们有 :
+
+当S[i-1]!=T[j-1]时, CONCLUDE[i][j]=CONCLUDE[i-1][j]
+
+当S[i-1]==T[j-1]时, 我们把情况分为两种, 一, T的前j个元素都存在于S的前i-1个元素里面, 二, T的前j-1个元素都存在于S的前i-1个元素里面
+对于第一种, 我们可知CONCLUDE[i][j]=CONCLUDE[i-1][j], 而对于第二种, CONCLUDE[i][j]=CONCLUDE[i-1][j-1]
+换句话, 当S[i-1]==T[j-1]时, 情况可以被分为T带S[j]玩和不带S[j]玩的情况, 两种情况的可能结果加起来就是总共的 :
+
+当S[i-1]==T[j-1]时, CONCLUDE[i][j]=CONCLUDE[i-1][j]+CONCLUDE[i-1][j-1]
+
+这里有一个细节, 就是当T为空时, CONCLUDE[i][0]始终为1
+
+状态转移方程或者说递推公式出来之后, 直接递推算到i==len(S), j==len(T)的情况即是要求的答案
+*/
+
+//这只是一个随手的foolish solution，yangwuqi
+//4ms，faster than 100%
+
+func numDistinct(s string, t string) int {
+    if len(s)<len(t){
+        return 0
+    }
+    CONCLUDE:=make([][]int,len(s)+1)
+    for i:=0;i<len(s)+1;i++{
+        CONCLUDE[i]=make([]int,len(t)+1)
+    }
+    for i:=0;i<len(s)+1;i++{
+        CONCLUDE[i][0]=1
+    }
+    for i:=1;i<len(s)+1;i++{
+        for j:=1;j<len(t)+1;j++{
+            if s[i-1]!=t[j-1]{
+                CONCLUDE[i][j]=CONCLUDE[i-1][j]
+            }else if s[i-1]==t[j-1]{
+                CONCLUDE[i][j]=CONCLUDE[i-1][j]+CONCLUDE[i-1][j-1]
+            }
+        }
+    }
+    return CONCLUDE[len(s)][len(t)]
+}
