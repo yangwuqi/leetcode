@@ -1,0 +1,26 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func longestCommonPrefix(strs []string) string {
+    if len(strs)==0{
+        return ""
+    }
+    var zz []byte
+    num:=len(strs)
+    min:=len(strs[0])
+    for _,v:=range strs{
+        if len(v)<min{
+            min=len(v)
+        }
+    }
+    for i:=0;i<min;i++{
+        the_char:=strs[0][i]
+        for j:=1;j<num;j++{
+            if strs[j][i]!=the_char{
+                return string(zz)
+            }
+        }
+        zz=append(zz,strs[0][i])
+    }
+    return string(zz)
+}
