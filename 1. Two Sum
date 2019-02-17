@@ -1,0 +1,21 @@
+//这只是一个随手的foolish solution，yangwuqi
+//4ms，faster than 100%
+
+func twoSum(nums []int, target int) []int {
+	var x []int
+	num:=len(nums)
+	xx:=make(map[int]int)//用一个map存下每个元素值，如果（target - 一个元素值）能在这个map里找到，直接就得到了满足题意的元素组合
+	for i:=0;i<num;i++{
+		xx[nums[i]]=i
+	}
+	for i:=0;i<num;i++{
+		if thenum,ok:=xx[target-nums[i]];ok {
+            if thenum==i{
+                continue
+            }
+			x=append(x, i, thenum)
+			return x
+		}
+	}
+	return x
+}
