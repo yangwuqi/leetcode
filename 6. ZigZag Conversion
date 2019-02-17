@@ -1,0 +1,29 @@
+//这只是一个随手的foolish solution，yangwuqi
+//12ms，faster than 82.14%
+
+func convert(s string, numRows int) string {//模拟一下Z形路线，完事
+    var result []byte
+    results:=make([][]byte,numRows)
+    var flag int
+    for {
+    for i:=0;i<numRows;i++{
+        if flag>=len(s){
+            goto Hey
+        }
+        results[i]=append(results[i],s[flag])
+        flag++
+    }
+    for i:=0;i<numRows-2;i++{
+        if flag>=len(s){
+            goto Hey
+        }
+        results[numRows-i-2]=append(results[numRows-i-2],s[flag])
+        flag++
+    }
+    }
+    Hey:
+    for i:=0;i<numRows;i++{
+        result=append(result[:],results[i][:]...)
+    }
+    return string(result)
+}
