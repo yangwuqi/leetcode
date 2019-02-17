@@ -1,0 +1,28 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms, faster than 100%
+
+func plusOne(digits []int) []int {//最后一位加1，前面需要进位就依次进位就是了，如果第一位也需要进位，重开一个[]int存结果
+    return jinwei(1,len(digits)-1,digits)
+}
+func jinwei(x int, weizhi int, y []int)[]int{
+    if weizhi==0&&x+y[weizhi]<10{
+        y[weizhi]=x+y[weizhi]
+        return y
+    }else if weizhi==0{
+        var zz []int
+        zz=append(zz,1)
+        y[weizhi]=x+y[weizhi]-10
+        for i:=0;i<len(y);i++{
+            zz=append(zz,y[i])
+        }
+        return zz
+    }
+    y[weizhi]=y[weizhi]+x
+    if  y[weizhi]>9{
+        y[weizhi]=y[weizhi]-10
+        return jinwei(1,weizhi-1,y)
+    }else{
+        return jinwei(0,weizhi-1,y)  
+    }
+    return y
+}
