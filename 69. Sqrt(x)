@@ -1,0 +1,22 @@
+//这只是一个随手的foolish solution，yangwuqi
+//4ms, faster than 100%
+
+func mySqrt(x int) int {//找一个平方比它小但是加一的平方比它大的整数，找的过程用二分
+    if x==1||x==0{
+        return x
+    }
+    return find(0,x,x)
+}
+func find(left int, right int, x int)int{
+    if left*left<=x&&right*right>=x&&right-left<=1&&right-left>=0{
+        return left
+    }else{
+        mid:=(left+right)/2
+        if mid*mid>x{
+            return find(left,mid,x)
+        }else{
+            return find(mid,right,x)
+        }
+    }
+    return 0
+}
