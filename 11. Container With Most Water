@@ -1,0 +1,35 @@
+//这只是一个随手的foolish solution，yangwuqi
+//16ms，faster than 100%
+
+func maxArea(height []int) int {
+    lenn:=len(height)        //这个题目其实就是找出可能的最大面积
+    zuobiao:=make([]int,lenn)//用这个数组存横坐标和高度的对应关系 
+    a:=0                     //这题如果不用最简单的两个for的话，需要知道一个事实，当横坐标a和b定住，且a上的height小于b上的，那么为了获得更大面积
+    b:=lenn-1                //当b-a无法更大时，只能动a，因为不管怎么动b，a如果不动其对应的height都会拖后腿，b-a无法更大时，这样面积只会越动越小
+    for i:=0;i<lenn;i++{     //那么我们从b-a无法更大的时候出发，也就是a和b是前后端点的时候，开始分别移动对应height较小的那个，尝试获得更大的面积
+        zuobiao[i]=height[i]
+    }
+    smax:=(b-a)*min(zuobiao[a],zuobiao[b])
+    for a<b{
+        if zuobiao[a]<zuobiao[b]{
+            a++
+        }else if zuobiao[a]>zuobiao[b]{
+            b--
+        }else{               //当a位置上的height和b位置上的height一样时，不管动a还是动b都会有另一个拖后腿，只能试试两个一起动
+            a++              //在找寻更大面积的情况下，a和b一起动是只动一个的子集，这里三个判断已经足以覆盖所有可能的更大面积
+            b--
+        }
+        s:=(b-a)*min(zuobiao[a],zuobiao[b])
+        if smax<s{
+            smax=s
+        }
+    }
+    return smax
+}
+
+func min(x int,y int)int{
+    if x<y{
+        return x
+    }
+    return y
+}
