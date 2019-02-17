@@ -1,0 +1,50 @@
+/*
+这题，可以用动态规划求解，我们先设dp[i][j]表示字符串s1的前i个字母是否可以和字符串s2的前j个字母可以交叉构成字符串s3的前i+j个字母，用true表示可以，false表示不可以
+
+那么首先，我们可以知道dp[0][0]肯定等于true，并且对dp[i][0]，如果s1的前i个字母和s3的前i个字母相等，则dp[i][0]=true，否则为false，对于dp[0][j]同理
+这样我们就知道了dp[i][j]数组的两条边的情况，于是我们只需要一个基于dp[i][0]和dp[0][j]的递推关系，就能递推出i!=0且j!=0时，dp[i][j]的取值
+
+我们思考一番会发现，对于dp[i][j]，当s1的前i个字母和s2的前j个字母的交错结果与s3的前i+j个字母相等时，有可能最后一个字母是s1[i-1]，也有可能最后一个字母是s2[j-1]
+
+当最后一个相等字母是s1[i-1]==s3[i+j-1]时，dp[i][j]=dp[i-1][j]
+
+当最后一个相等字母是s2[j-1]=s3[i+j-1]时，dp[i][j]=dp[i][j-1]
+
+当最后一个相等字母既是s1[i-1]又是s2[j-1]时，dp[i][j]=dp[i-1][j] || dp[i][j-1]
+
+综上，dp[i][j]=(s1[i-1]==s3[i+j-1]&&dp[i-1][j])||(s2[j-1]==s3[i+j-1]&&dp[i][j-1])
+
+而最初的dp[i-1][j]和dp[i][j-1]就是dp数组的i为0的那条边和j为0的那条边上的值，这个我们已经在前面求出，所以所有的dp[i][j]就都可以递推出来了
+
+注意由于dp数组的边上取值范围是0到len(s1)和0到len(s2)，所以dp数组的大小是(len(s1)+1)X(len(s2)+1)而不是(len(s1))X(len(s2))
+*/
+
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func isInterleave(s1 string, s2 string, s3 string) bool {
+    if len(s1)+len(s2)!=len(s3){
+        return false
+    }
+    dp:=make([][]bool,len(s1)+1)
+    for i:=0;i<len(s1)+1;i++{
+        dp[i]=make([]bool,len(s2)+1)
+    }
+    dp[0][0]=true
+    for i:=1;i<len(s1)+1;i++{
+        if s3[i-1]==s1[i-1]{
+            dp[i][0]=dp[i-1][0]
+        }
+    }
+    for i:=1;i<len(s2)+1;i++{
+        if s3[i-1]==s2[i-1]{
+            dp[0][i]=dp[0][i-1]
+        }
+    }
+    for i:=1;i<len(s1)+1;i++{
+        for j:=1;j<len(s2)+1;j++{
+            dp[i][j]=(s1[i-1]==s3[i+j-1]&&dp[i-1][j])||(s2[j-1]==s3[i+j-1]&&dp[i][j-1])
+        }
+    }
+    return dp[len(s1)][len(s2)]
+}
