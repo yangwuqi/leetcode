@@ -1,0 +1,83 @@
+/*
+When word1[I-1]==word2[j-1], if we want to convert word1 to word2 in a shortest way, we just need to convert word1[0 to I-2] to word2[0 to j-2], so in this case dp[I][j]=dp[I-1][j-1].
+
+When word1[I-1]!=word2[j-1], there are 3 situations:
+
+1, word1[I-1] is irrelevant, we need to delete word1[I-1] at first, this operation is 1 step, and the rest is dp[I-1]dp[j]
+
+2, word2[j-1] is irrelevant, we need to delete word2[j-1] at first, this operation is 1 step, and the rest is dp[I]dp[j-1]
+
+3, word1[I-1] and word2[j-1] are both irrelevant, but we do not need 2 steps at first, we just need to change word1[I-1] to word2[j-1] or change word2[j-1] to word1[I-1], this is still a 1 step operation, and the rest is dp[I-1]dp[j-1]
+
+In conclusion,
+
+When word1[i-1]==word2[j-1], dp[i][j]=dp[i-1][j-1]
+
+When word1[I-1]!=word2[j-1], dp[i][j]=min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])+1
+
+I hope my explanation can help you.
+
+这题，可以动态规划，如果我们设dp[i][j]表示第一个词的前i个字母和第二个词的前j个字母达成相等所需要的最小步骤数
+那么这里可以推出来状态转移方程或者说递推关系，设第一个单词为word1，设第二个单词为word2
+
+首先，我们分两种情况，第一种是word1的最后一个字母word1[i-1]和word2的最后一个字母word2[j-1]相等
+这种情况下，要想转换步骤最小，word1[0]到word1[i-2]和word2[0]到word2[j-2]的转换步骤就等于word1[0]到word1[i-1]和word2[0]到word2[j-1]的最小转换步骤
+那么我们有，dp[i][j]=dp[i-1][j-1]
+
+然后，第二种情况是word1的最后一个字母word1[i-1]和word2的最后一个字母word2[j-1]不相等
+在这种情况下，又分三种情况
+第一种，word1[i-1]与转换过程无关，删掉word1[i-1]需要一个步骤，然后再对word1[0]到word1[i-2]和word2[0]到word2[j-1]进行转换，对于dp[i][j]
+这时，dp[i][j]=dp[i-1][j]+1
+第二种，word2[j-1]与转换过程无关，删掉word2[j-1]需要一个步骤，然后再对word1[0]到word1[i-1]和word2[0]到word2[j-2]进行转换，对于dp[i][j]
+这时，dp[i][j]=dp[i][j-1]
+第三种，word1[i-1]和word2[j-1]都和转换过程无关，将word1[i-1]替换成和word2[j-1]相等或者将word2[j-1]替换成和word1[i-1]相等需要一个步骤，同理对于dp[i][j]
+这时，dp[i][j]=dp[i-1][j-1]+1
+
+归纳来看，由于要求的是最小步骤，那么在word1[i-1]不等于word2[j-1]时
+dp[i][j]=min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])+1
+
+综上，我们得到
+word1[i-1]==word2[j-1]时，dp[i][j]=dp[i-1][j-1]
+word1[i-1]!=word2[j-1]时，dp[i][j]=min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])+1
+
+且注意，对于word2为空时，最小转换步骤就是word1的长度，对word1为空时，最小转换步骤就是word2的长度
+所以，dp[0][j]=j，dp[i][0]=i
+
+至此，本题就完毕了，递推求解即可，注意由于包含word1或word2为空，dp数组的大小是(len(word1)+1)X(len(word2)+1)，而不是(len(word1))X(len(word2))
+*/
+
+//这只是一个随手的foolish solution，yangwuqi
+//8ms，faster than 100%
+
+func minDistance(word1 string, word2 string) int {
+    dp:=make([][]int,len(word1)+1)
+    for i:=0;i<len(word1)+1;i++{
+        dp[i]=make([]int,len(word2)+1)
+    }
+    for i:=0;i<len(word1)+1;i++{
+        dp[i][0]=i
+    }
+    for i:=0;i<len(word2)+1;i++{
+        dp[0][i]=i
+    }
+    for i:=1;i<len(word1)+1;i++{
+        for j:=1;j<len(word2)+1;j++{
+            if word1[i-1]==word2[j-1]{
+                dp[i][j]=dp[i-1][j-1]
+            }else{
+                dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1
+            }
+        }
+    }
+    return dp[len(word1)][len(word2)]
+}
+
+func min(x int,y int,z int)int{
+    if x>y{
+        x=y
+    }
+    if x>z{
+        x=z
+    }
+    return x
+}
