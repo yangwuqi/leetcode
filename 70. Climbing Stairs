@@ -1,0 +1,12 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms, faster than 100%
+
+func climbStairs(n int) int {  //step[i]=step[i-1]+step[i-2], step[i] can only be reached by 1 step from the step[i-1] or by 2 steps from the step[i-2]
+    var step []int
+    step=append(step,1)
+    step=append(step,2)
+    for i:=2;i<n;i++{
+        step=append(step,step[i-2]+step[i-1])
+    }
+    return step[n-1]
+}
