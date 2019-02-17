@@ -1,0 +1,23 @@
+//这只是一个随手的foolish solution，yangwuqi
+//28ms, faster than 100%
+
+func setZeroes(matrix [][]int)  {//emmm，这题我写的没什么好讲的，就是先把0的位置遍历找出来，然后把每个位置的横纵行全部置0就完事了，空间消耗的话，i和j和一个存坐标的slice
+     var zuobiao [][2]int
+    for i:=0;i<len(matrix);i++{
+        for j:=0;j<len(matrix[0]);j++{
+            if matrix[i][j]==0{
+                zuobiao=append(zuobiao,[2]int{i,j})
+            }
+        }
+    }
+    for i:=0;i<len(zuobiao);i++{
+        x:=zuobiao[i][0]
+        for j:=0;j<len(matrix[x]);j++{
+            matrix[x][j]=0
+        }
+        y:=zuobiao[i][1]
+        for j:=0;j<len(matrix);j++{
+            matrix[j][y]=0
+        }
+    }
+}
