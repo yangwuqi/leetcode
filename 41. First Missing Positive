@@ -1,0 +1,22 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+//找出最小的正数，如果这个正数>1，那么直接就是1，否则，找出第一个正不连续的左边数的后第一个大于0的数
+//If the smallest>1, then the answer is 1, otherwise find the first num meets (num>0&&behind the nums[i]), where (nums[i+1]>1&&nums[i+1]-nums[i]>1)
+
+func firstMissingPositive(nums []int) int {
+    sort.Ints(nums)
+    if len(nums)==0||nums[0]>1||nums[len(nums)-1]<1{
+        return 1
+    }
+    for i:=0;i<len(nums)-1;i++{
+        if nums[i+1]-nums[i]>1&&nums[i+1]>1{
+            positive:=nums[i]+1
+            for positive<1{
+                positive=1
+            }
+            return positive
+        }
+    }
+    return nums[len(nums)-1]+1
+}
