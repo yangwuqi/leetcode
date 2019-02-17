@@ -1,0 +1,39 @@
+//这只是一个随手的foolish solution，yangwuqi
+//0ms，faster than 100%
+
+func generateMatrix(n int) [][]int {//Just simulate the process to solve the problem, when flag==1, → then ↓, when flag==-1, ← then ↑
+    result:=make([][]int,n)
+    for i:=0;i<n;i++{
+        result[i]=make([]int,n)
+    }
+    find(0,0,0,n,result,1)
+    return result
+}
+func find(startnum int, xstart int, ystart int, lenn int, result [][]int, flag int){
+    if lenn==1{
+        startnum++
+        result[ystart][xstart]=startnum
+        return
+    }
+    if flag>0{
+        for i:=xstart;i<xstart+lenn;i++{
+            startnum++
+            result[ystart][i]=startnum
+        }
+        for i:=ystart+1;i<ystart+lenn;i++{
+            startnum++
+            result[i][xstart+lenn-1]=startnum
+        }
+        find(startnum,xstart+lenn-2,ystart+lenn-1,lenn-1,result,-flag)
+    }else{
+        for i:=xstart;i>xstart-lenn;i--{
+            startnum++
+            result[ystart][i]=startnum
+        }
+        for i:=ystart-1;i>ystart-lenn;i--{
+            startnum++
+            result[i][xstart-lenn+1]=startnum
+        }
+        find(startnum,xstart-lenn+2,ystart-lenn+1,lenn-1,result,-flag)
+    }
+}
