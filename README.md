@@ -1,6 +1,6 @@
 # leetcode
 
-47 stars on leetcode now.
+50 stars on leetcode now.
 
 I solved 200 problems on leetcode during 16,12,2018 to 2,2,2019, that took me one and a half months and was pretty helpful, I'd like to put up my solutions here just for commemorating.
 
